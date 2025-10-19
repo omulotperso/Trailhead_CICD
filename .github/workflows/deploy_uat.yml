@@ -3,7 +3,7 @@ name: DEPLOY TO UAT
 on:
   push:
     branches:
-      - 'UAT'
+      - 'STAGING'
 
 jobs:
   deploy-to-preprod:
