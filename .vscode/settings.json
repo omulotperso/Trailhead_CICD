@@ -8,7 +8,7 @@
   "xml.preferences.showSchemaDocumentationType": "none",
   "workbench.colorCustomizations": {
     "activityBar.activeBorder": "#25320e",
-    "statusBar.background": "#2f53a8",
-    "activityBar.background": "#2f53a8"
+    "statusBar.background": null,
+    "activityBar.background": null
   }
 }
