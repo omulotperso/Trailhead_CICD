@@ -1,9 +1,9 @@
-name: DEPLOY TO CI
+name: DEPLOY TO DEVELOP
 
 on:
   push:
     branches:
-      - 'CI'
+      - 'DEVELOP'
 
 jobs:
   deploy-to-preprod:
@@ -22,15 +22,15 @@ jobs:
       run: |
         echo 'y' | sf plugins install texei-sfdx-plugin
         
-    - name: Connect to UAT Sandbox
+    - name: Connect to DEVELOP Sandbox
       run: |
-        echo ${{ secrets.SFDX_AUTHURL_CI }} > ./authfile
-        sf auth sfdxurl store --sfdx-url-file authfile --alias SANDBOX_UAT --set-default
+        echo ${{ secrets.SFDX_AUTHURL_DEVELOP }} > ./authfile
+        sf auth sfdxurl store --sfdx-url-file authfile --alias SANDBOX_DEVELOP --set-default
     
     - name: Create new empty Profiles
       run: |
-        sf texei skinnyprofile create --target-org SANDBOX_UAT
+        sf texei skinnyprofile create --target-org SANDBOX_DEVELOP
 
-    - name: Deploy on UAT Sandbox
+    - name: Deploy on DEVELOP Sandbox
       run: |
-        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_UAT --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run
+        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_DEVELOP --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run
