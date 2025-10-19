@@ -1,0 +1,36 @@
+name: DEPLOY TO CI
+
+on:
+  push:
+    branches:
+      - 'CI'
+
+jobs:
+  deploy-to-preprod:
+    runs-on: ubuntu-latest
+    env:
+      SF_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install SF CLI
+      run: |
+        npm install @salesforce/cli --global
+        sf update
+
+    - name: Install TEXEI SFDX PLUGIN
+      run: |
+        echo 'y' | sf plugins install texei-sfdx-plugin
+        
+    - name: Connect to UAT Sandbox
+      run: |
+        echo ${{ secrets.SFDX_AUTHURL_CI }} > ./authfile
+        sf auth sfdxurl store --sfdx-url-file authfile --alias SANDBOX_UAT --set-default
+    
+    - name: Create new empty Profiles
+      run: |
+        sf texei skinnyprofile create --target-org SANDBOX_UAT
+
+    - name: Deploy on UAT Sandbox
+      run: |
+        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_UAT --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run

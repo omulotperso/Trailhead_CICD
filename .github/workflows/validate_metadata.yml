@@ -1,0 +1,42 @@
+name: VALIDATE METADATA
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+      - '!UAT'
+
+jobs:
+  validate-metadata:
+    runs-on: ubuntu-latest
+    env:
+      SF_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install SF CLI
+      run: |
+        npm install @salesforce/cli --global
+        sf update
+
+    - name: Install TEXEI SFDX PLUGIN
+      run: |
+        echo 'y' | sf plugins install texei-sfdx-plugin
+
+    - name: Profile Validation
+      run: |
+        sf texei skinnyprofile check
+
+    - name: Connect to CI Sandbox
+      run: |
+        echo ${{ secrets.SFDX_AUTHURL_CI }} > ./authfile
+        sf auth sfdxurl store --sfdx-url-file authfile --alias SANDBOX_CI --set-default
+    
+    - name: Create new empty Profiles
+      run: |
+        sf texei skinnyprofile create --target-org SANDBOX_CI
+    
+    - name: Validate Metadata on CI Sandbox
+      run: |
+        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_CI --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run
