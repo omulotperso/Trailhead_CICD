@@ -33,4 +33,4 @@ jobs:
 
     - name: Deploy on DEVELOP Sandbox
       run: |
-        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_DEVELOP --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run
+        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_DEVELOP --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts
