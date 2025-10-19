@@ -36,6 +36,17 @@ jobs:
     - name: Create new empty Profiles
       run: |
         sf texei skinnyprofile create --target-org SANDBOX_CI
+
+    - name: Debug workspace
+      run: |
+        echo "PWD=$(pwd)"
+        ls -la
+        echo "---- sfdx-project.json ----"
+        cat sfdx-project.json || true
+        echo "---- packageDirectories ----"
+        (command -v jq >/dev/null && jq '.packageDirectories' sfdx-project.json) || cat sfdx-project.json
+        echo "---- find force-app ----"
+        (set -x; find . -maxdepth 3 -type d -name 'force-app' || true)
     
     - name: Validate Metadata on CI Sandbox
       run: |
