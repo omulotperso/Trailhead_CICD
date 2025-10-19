@@ -31,7 +31,7 @@ jobs:
       run: |
         sf texei skinnyprofile create --target-org SANDBOX_DEVELOP
 
-     - name: Debug workspace
+    - name: Debug workspace
       run: |
         echo "PWD=$(pwd)"
         ls -la
