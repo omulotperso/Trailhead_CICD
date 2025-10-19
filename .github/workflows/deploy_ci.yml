@@ -22,15 +22,15 @@ jobs:
       run: |
         echo 'y' | sf plugins install texei-sfdx-plugin
         
-    - name: Connect to UAT Sandbox
+    - name: Connect to CI Sandbox
       run: |
         echo ${{ secrets.SFDX_AUTHURL_CI }} > ./authfile
-        sf auth sfdxurl store --sfdx-url-file authfile --alias SANDBOX_UAT --set-default
+        sf auth sfdxurl store --sfdx-url-file authfile --alias SANDBOX_CI --set-default
     
     - name: Create new empty Profiles
       run: |
-        sf texei skinnyprofile create --target-org SANDBOX_UAT
+        sf texei skinnyprofile create --target-org SANDBOX_CI
 
-    - name: Deploy on UAT Sandbox
+    - name: Deploy on CI Sandbox
       run: |
-        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_UAT --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run
+        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org SANDBOX_CI --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run
