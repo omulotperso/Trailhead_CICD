@@ -32,6 +32,18 @@ jobs:
       run: |
         echo ${{ secrets.SFDX_AUTHURL_CI }} > ./authfile
         sf auth sfdxurl store --sfdx-url-file authfile --alias SANDBOX_CI --set-default
+
+    - name: Debug workspace
+      run: |
+    echo "PWD=$(pwd)"
+    ls -la
+    echo "---- sfdx-project.json ----"
+    cat sfdx-project.json || true
+    echo "---- packageDirectories ----"
+    (command -v jq >/dev/null && jq '.packageDirectories' sfdx-project.json) || cat sfdx-project.json
+    echo "---- find force-app ----"
+    (set -x; find . -maxdepth 3 -type d -name 'force-app' || true)
+
     
     - name: Create new empty Profiles
       run: |
