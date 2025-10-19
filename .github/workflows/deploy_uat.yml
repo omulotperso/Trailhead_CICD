@@ -1,9 +1,9 @@
-name: DEPLOY TO UAT
+name: DEPLOY TO STAGING
 
 on:
   push:
     branches:
-      - 'UAT'
+      - 'STAGING'
 
 jobs:
   deploy-to-preprod:
