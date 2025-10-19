@@ -1,4 +1,4 @@
-name: DEPLOY TO UAT
+name: DEPLOY TO CI
 
 on:
   push:
