@@ -1,0 +1,24 @@
+name: Core Model – Promotion depuis Staging (CLI sf)
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  promote-package:
+    name: Création & Promotion du Package (CLI sf)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create Package Version
+        run: |
+          PACKAGE_ID=$(sf package version create --package Core_Model --installation-key-bypass --target-dev-hub DevHub_Core --wait 10 --code-coverage --json | jq -r '.result.SubscriberPackageVersionId')
+          echo "PACKAGE_ID=$PACKAGE_ID" >> $GITHUB_ENV
+
+      - name: Promote Package Version
+        run: sf package version promote --package ${{ env.PACKAGE_ID }} --target-dev-hub DevHub_Core
+
+      - name: Log Promotion
+        run: echo "Package promu : ${{ env.PACKAGE_ID }}"

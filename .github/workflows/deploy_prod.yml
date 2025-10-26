@@ -1,0 +1,36 @@
+name: DEPLOY TO PROD
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  deploy-to-prod:
+    runs-on: ubuntu-latest
+    env:
+      SF_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install SF CLI
+      run: |
+        npm install @salesforce/cli --global
+        sf update
+
+    - name: Install TEXEI SFDX PLUGIN
+      run: |
+        echo 'y' | sf plugins install texei-sfdx-plugin
+        
+    - name: Connect to PROD
+      run: |
+        echo ${{ secrets.SFDX_AUTHURL_PROD }} > ./authfile
+        sf auth sfdxurl store --sfdx-url-file authfile --alias PROD --set-default
+    
+    - name: Create new empty Profiles
+      run: |
+        sf texei skinnyprofile create --target-org PROD
+
+    - name: Deploy on PROD
+      run: |
+        sf project deploy start --source-dir force-app --test-level RunLocalTests --target-org PROD --wait ${{ secrets.SFDX_TIMEOUT }} --ignore-conflicts --dry-run

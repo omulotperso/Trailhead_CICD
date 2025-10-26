@@ -1,0 +1,16 @@
+name: ES Extension – Déploiement Prod Espagne (CLI sf)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_id:
+        description: 'ID version promue à déployer (04tXXXXXX)'
+        required: true
+
+jobs:
+  deploy-to-prod-es:
+    name: Déployer en production Espagne
+    runs-on: ubuntu-latest
+    steps:
+      - name: Installation du package promu
+        run: sf package install --package ${{ github.event.inputs.version_id }} --target-org PROD_ES_ORG_ALIAS --wait 10

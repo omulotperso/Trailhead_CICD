@@ -1,0 +1,14 @@
+name: Core Model – Déploiement Espagne (CLI sf)
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  deploy-to-uat-es:
+    name: Déploiement UAT Espagne (CLI sf)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Installer la version promue sur UAT Espagne
+        run: sf package install --package ${{ env.PACKAGE_ID }} --target-org UAT_ES_ORG_ALIAS --wait 10

@@ -1,0 +1,21 @@
+name: ES Extension – CI (CLI sf)
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  validate-extension:
+    name: Valider extension avec dépendance Core Model
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create Scratch Org
+        run: |
+          sf org create scratch --definition-file config/project-scratch-def.json --alias es_dev --duration-days 7 --target-dev-hub DevHub_ES --set-default
+          sf package install --package CORE_MODEL_VERSION_ID --target-org es_dev --wait 10
+          sf project deploy start --target-org es_dev
+          sf apex run test --target-org es_dev --result-format human --wait 10
+          sf org delete scratch --target-org es_dev --no-prompt

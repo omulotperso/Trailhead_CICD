@@ -1,0 +1,29 @@
+name: ES Extension – Promotion (CLI sf)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  promote-extension:
+    name: Création & Promotion Extension Espagne
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Créer la version du package
+        run: |
+          PACKAGE_ID=$(sf package version create --package ES_Extension --installation-key-bypass --target-dev-hub DevHub_ES --wait 10 --code-coverage --json | jq -r '.result.SubscriberPackageVersionId')
+          echo "PACKAGE_ID=$PACKAGE_ID" >> $GITHUB_ENV
+
+      - name: Promouvoir la version
+        run: sf package version promote --package ${{ env.PACKAGE_ID }} --target-dev-hub DevHub_ES
+
+      - name: Tag Git
+        run: |
+          VERSION=$(sf package version list --package ES_Extension --target-dev-hub DevHub_ES --json | jq -r '.result[-1].Version')
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git tag -a "es-v$VERSION" -m "Release ES Extension $VERSION"
+          git push origin "es-v$VERSION"

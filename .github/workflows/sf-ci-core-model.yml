@@ -1,0 +1,23 @@
+name: Core Model – Validation Develop (CLI sf)
+
+on:
+  push:
+    branches:
+      - CI
+
+jobs:
+  validate-on-ci:
+    name: Validation Technique avec CLI sf
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Apex Tests
+        run: sf apex run test --result-format human --wait 10
+
+      - name: Create Scratch Org
+        run: |
+          sf org create scratch --definition-file config/project-scratch-def.json --alias validateCI --duration-days 7 --target-dev-hub DevHub_Core --set-default
+          sf project deploy start
+          sf apex run test --target-org validateCI --result-format human --wait 10
+          sf org delete scratch --target-org validateCI --no-prompt
