@@ -1,10 +1,18 @@
 {
-  "orgName": "olivier company",
-  "edition": "Developer",
-  "features": ["EnableSetPasswordInApi"],
+  "orgName": "Core Model Test Dev",
+  "edition": "Enterprise",
+  "features": [
+    "MultiCurrency",
+    "RecordTypes",
+    "TranslationWorkbench"
+  ],
   "settings": {
-    "lightningExperienceSettings": {
-      "enableS1DesktopEnabled": true
+    "languageSettings": {
+      "enableTranslationWorkbench": true
+    },
+    "companySettings": {
+      "defaultCurrencyIsoCode": "EUR",
+      "language": "fr"
     },
     "mobileSettings": {
       "enableS1EncryptedStoragePref2": false
