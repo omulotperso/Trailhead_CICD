@@ -8,7 +8,7 @@ sfdx force:org:create \
   --definitionfile config/project-scratch-def.json \
   --setalias $DEV_ALIAS \
   --setdefaultusername \
-  --durationdays 7 \
+  --durationdays 30 \
   --targetdevhubusername DevHub_Core
 
 echo "📤 Déploiement du code Core Model"
