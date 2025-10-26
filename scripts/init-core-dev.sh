@@ -8,7 +8,7 @@ echo "🔧 Création de la Scratch Org avec CLI sf : $DEV_ALIAS"
 sf org create scratch \
   --definition-file config/project-scratch-def.json \
   --alias $DEV_ALIAS \
-  --duration-days 7 \
+  --duration-days 30 \
   --target-dev-hub $DEV_HUB_ALIAS \
   --set-default
 
