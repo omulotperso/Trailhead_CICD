@@ -7,7 +7,7 @@ Ce pipeline se déclenche **à chaque push sur la branche `prod`**.
 
 ## 🔧 Actions automatisées
 - Installation du package via son ID promu
-- Déploiement dans l’org UAT Espagne (`UAT_ES_ORG_ALIAS`)
+- Déploiement dans l’org Package Espagne (`PKG_ES_ORG_ALIAS`)
 
 ## ✅ Résultat attendu
 L’équipe Espagne peut :
