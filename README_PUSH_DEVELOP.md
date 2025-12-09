@@ -56,10 +56,10 @@ Ou depuis GitHub UI.
 ## 🔍 Objectif de la branche `develop`
 
 | Fonction                            | Description                                         |
-|---------------------------------- --|-------------|
+|---------------------------------- --|-----------------------------------------------------|
 | 🔗 Intégration                      | Regroupe toutes les fonctionnalités prêtes pour UAT |
-| ✅ Validation fonctionnelle croisée | Permet à plusieurs développeurs de tester ensemble |
-| 🔁 Préparation du package           | Merge vers `staging` une fois stable |
+| ✅ Validation fonctionnelle croisée | Permet à plusieurs développeurs de tester ensemble  |
+| 🔁 Préparation du package           | Merge vers `staging` une fois stable                |
 
 ---
 
