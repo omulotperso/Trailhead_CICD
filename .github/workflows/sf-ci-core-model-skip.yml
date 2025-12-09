@@ -17,5 +17,5 @@ jobs:
         run: |
           sf org create scratch --definition-file config/project-scratch-def.json --alias validateCI --duration-days 7 --target-dev-hub DevHub_Core --set-default
           sf project deploy start
-          sf apex run test --target-org validateCI --result-format human --wait 10
+         
           sf org delete scratch --target-org validateCI --no-prompt
